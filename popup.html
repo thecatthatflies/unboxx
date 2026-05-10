@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/duotone/style.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="popup-header">
+      <div class="popup-logo">
+        <i class="ph-duotone ph-link-simple"></i>
+      </div>
+      <h1>unboxx</h1>
+      <p class="subtitle">See where links go</p>
+    </div>
+
+    <div class="popup-content">
+      <div class="stat">
+        <div class="stat-icon"><i class="ph-duotone ph-link"></i></div>
+        <div class="stat-label">Links</div>
+        <div class="stat-value" id="link-count">—</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon"><i class="ph-duotone ph-eye-slash"></i></div>
+        <div class="stat-label">Tracking</div>
+        <div class="stat-value" id="tracking-count">—</div>
+      </div>
+
+      <div class="stat status-stat">
+        <div class="stat-icon"><i class="ph-duotone ph-check-circle"></i></div>
+        <div class="stat-label">Status</div>
+        <div class="stat-value" id="status">Active</div>
+      </div>
+    </div>
+
+    <div class="popup-footer">
+      <button id="disable-btn" class="btn">
+        <i class="ph-duotone ph-toggle-left"></i>
+        Disable on this site
+      </button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

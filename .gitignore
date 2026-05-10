@@ -134,3 +134,11 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# ai agents
+.claude
+settings.local.json
+CLAUDE.md
+
+# test
+test.html
