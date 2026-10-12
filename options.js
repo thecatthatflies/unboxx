@@ -69,8 +69,8 @@
   function setRangeFill(range) {
     const min = Number(range.min) || 0;
     const max = Number(range.max) || 100;
-    const pct = ((Number(range.value) - min) / (max - min)) * 100;
-    range.style.setProperty("--fill", `${pct}%`);
+    const ratio = (Number(range.value) - min) / (max - min);
+    range.style.setProperty("--fill", String(ratio));
   }
 
   function setSafetyMeta(on) {
