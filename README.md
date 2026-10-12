@@ -18,7 +18,7 @@ Rest your pointer on any link, on any site. unboxx opens a small preview card wi
 ## Features
 
 ### Preview
-- **Preview card on hover.** Shows the site's share image (or an optional live screenshot), favicon, title and the clean destination.
+- **Preview card on hover.** Shows the destination with a live view of the page (the default), the site's share image, or a screenshot, plus favicon, title and the clean link. You choose which in settings.
 - **Keyboard friendly.** Tab to a link and the same card opens. Single-key shortcuts work while a card is open.
 - **Pin and drag.** Press `P` or drag the header to keep a card on screen while you read.
 - **Hold-to-preview mode.** Cards only appear while you hold Alt (Option on Mac), if you want them out of the way.
@@ -52,8 +52,8 @@ Rest your pointer on any link, on any site. unboxx opens a small preview card wi
 
 | Key | Action |
 | --- | --- |
-| `C` | Copy link |
-| `Shift` `C` | Copy clean link |
+| `C` | Copy clean link (without trackers) |
+| `Shift` `C` | Copy original link |
 | `M` | Copy as Markdown |
 | `O` | Open in new tab |
 | `B` | Open in background tab |
@@ -75,7 +75,8 @@ A settings page opens with a short tour. To add a Safe Browsing key, open settin
 
 ## Privacy
 
-- unboxx has **no servers** and no analytics. Links are fetched straight from your browser **without cookies** or a referrer, so a preview never acts as you on a site.
+- unboxx has **no servers** and no analytics. Metadata requests (title, description, redirects) go straight from your browser to the destination **without cookies** or a referrer.
+- **Live preview, the default, loads the page itself in a restricted frame**, much as if you visited it, so that page may receive cookies and make its normal requests. Choose **Site image** or **None** in settings to avoid that.
 - History and stats live in local extension storage and are never kept in incognito.
 - Two features send a link elsewhere, and both are **off until you turn them on**:
   - **Screenshot preview** sends the link to WordPress mShots.
@@ -103,10 +104,6 @@ A settings page opens with a short tour. To add a Safe Browsing key, open settin
 - `background.js` makes one streamed request per link, reads only as much HTML as it needs, tracks the redirect chain with `webRequest`, and caches results in IndexedDB for 3 days.
 - Preview images are drawn onto a canvas, so they show up even on sites with strict image policies.
 - Icons are [Phosphor](https://phosphoricons.com) (MIT), bundled locally in `lib/icons.js`.
-
-## Promo assets
-
-The trailer and thumbnail are generated from code in [`promo/`](promo/). Run `npm install && npm run build` inside that folder to re-render the video, and `node thumb.mjs` for the thumbnail.
 
 ## License
 
