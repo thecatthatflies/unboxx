@@ -1,49 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="ubx-root" data-theme="auto">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/duotone/style.css">
+  <title>unboxx</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="popup-container">
-    <div class="popup-header">
-      <div class="popup-logo">
-        <i class="ph-duotone ph-link-simple"></i>
+  <main class="pp">
+    <header class="pp-head">
+      <i data-mark></i>
+      <span class="pp-word">unboxx</span>
+      <div class="pp-head-tools">
+        <button id="pause" class="ubx-iconbtn" type="button" aria-pressed="false" aria-label="Pause unboxx everywhere" title="Pause everywhere"><i data-icon="power"></i></button>
+        <button id="open-settings" class="ubx-iconbtn" type="button" aria-label="Open settings" title="Settings"><i data-icon="gear-six"></i></button>
       </div>
-      <h1>unboxx</h1>
-      <p class="subtitle">See where links go</p>
+    </header>
+
+    <div id="paused-banner" class="pp-banner" hidden>
+      <i data-icon="power" data-size="15"></i>
+      <span>Paused</span>
+      <button id="resume" class="ubx-textlink" type="button">Resume</button>
     </div>
 
-    <div class="popup-content">
-      <div class="stat">
-        <div class="stat-icon"><i class="ph-duotone ph-link"></i></div>
-        <div class="stat-label">Links</div>
-        <div class="stat-value" id="link-count">—</div>
+    <section class="pp-site" aria-labelledby="site-host">
+      <div class="pp-site-row">
+        <span class="ubx-favslot pp-site-fav">
+          <canvas class="ubx-fav" id="site-fav" width="32" height="32" aria-hidden="true"></canvas>
+          <span class="ubx-monogram" id="site-letter" aria-hidden="true">?</span>
+        </span>
+        <span class="pp-site-host" id="site-host">This page</span>
+        <span class="pp-site-state" id="site-sub" hidden></span>
+        <label class="pp-switch" id="site-switch" title="Previews on this site">
+          <input type="checkbox" id="site-toggle" role="switch" aria-label="Previews on this site">
+          <span class="pp-switch-track" aria-hidden="true"><span class="pp-switch-thumb"></span></span>
+        </label>
       </div>
 
-      <div class="stat">
-        <div class="stat-icon"><i class="ph-duotone ph-eye-slash"></i></div>
-        <div class="stat-label">Tracking</div>
-        <div class="stat-value" id="tracking-count">—</div>
+      <dl class="pp-stats" id="stats">
+        <div class="pp-stat" title="Links on this page with tracking parameters or redirect wrappers."><dt>Tracked</dt><dd id="stat-trackers"><span class="ubx-skel pp-num-skel"></span></dd></div>
+        <div class="pp-stat"><dt>Links</dt><dd id="stat-links"><span class="ubx-skel pp-num-skel"></span></dd></div>
+      </dl>
+
+      <div class="pp-tools" id="tools">
+        <button id="clean-all" class="pp-tool" type="button" title="Removes tracking parameters from every link on this page."><i data-icon="broom" data-size="15"></i><span>Clean links</span></button>
+        <button id="copy-page" class="pp-tool" type="button" title="Copies this page's address without trackers."><i data-icon="copy" data-size="15"></i><span>Copy address</span></button>
       </div>
 
-      <div class="stat status-stat">
-        <div class="stat-icon"><i class="ph-duotone ph-check-circle"></i></div>
-        <div class="stat-label">Status</div>
-        <div class="stat-value" id="status">Active</div>
+      <div class="pp-note" id="site-note" hidden>
+        <span id="site-note-text">Not active on this tab</span>
+        <button id="reload-tab" class="ubx-textlink" type="button">Reload</button>
       </div>
-    </div>
+    </section>
 
-    <div class="popup-footer">
-      <button id="disable-btn" class="btn">
-        <i class="ph-duotone ph-toggle-left"></i>
-        Disable on this site
-      </button>
-    </div>
-  </div>
+    <form class="pp-unbox" id="unbox-form" novalidate>
+      <label class="pp-label" for="unbox-input">Unbox a link</label>
+      <div class="pp-input-row">
+        <input id="unbox-input" class="pp-input" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Paste a link" aria-describedby="unbox-help" autofocus>
+        <button class="pp-go" type="submit" aria-label="Unbox link" title="Unbox (Enter)"><i data-icon="arrow-right" data-size="16"></i></button>
+      </div>
+      <p class="pp-help" id="unbox-help" role="alert"></p>
+      <div class="pp-result" id="unbox-result" aria-live="polite"></div>
+    </form>
 
+    <section class="pp-recent" aria-labelledby="recent-title">
+      <div class="pp-section-head">
+        <h2 id="recent-title">Recent</h2>
+        <button id="clear-history" class="ubx-textlink" type="button" hidden>Clear</button>
+      </div>
+      <ul class="pp-recent-list" id="recent-list"></ul>
+    </section>
+
+    <footer class="pp-foot">
+      <span id="lifetime" title="Total since install, on this device.">0 trackers removed</span>
+      <button id="shortcuts" class="ubx-textlink" type="button">Shortcuts</button>
+    </footer>
+  </main>
+
+  <script src="lib/icons.js"></script>
+  <script src="lib/rules.js"></script>
+  <script src="lib/settings.js"></script>
+  <script src="lib/card.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

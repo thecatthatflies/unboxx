@@ -1,123 +1,82 @@
-# 🔗 unboxx
+<img src="icons/logo.svg" width="72" alt="unboxx logo">
 
-**See where links really go before you click.**
+# unboxx
 
-unboxx is a browser extension that reveals the true destination of any link on the web. Hover over any link to instantly see where it leads, detect tracking parameters, and avoid dangerous websites—all before you click.
+**See where a link really goes before you click it.**
 
-## ✨ Features
+Rest your pointer on any link, on any site. unboxx opens a small preview card with the destination, a picture of the page, and anything worth knowing: trackers it removed, redirects it followed, and warnings when something looks off.
 
-### 🎯 Instant Link Preview
-Hover over any link to see its final destination in a beautiful tooltip. No more mystery about where you're headed.
+## What it does
 
-### 🛡️ Security Warnings
-Get real-time alerts about dangerous websites, malware, and phishing attempts before you accidentally visit them.
+### Previews
+- **Preview card on hover** with the site's share image (or an optional live screenshot), favicon, title and clean destination.
+- **Keyboard friendly.** Tab to a link and the same preview opens. Single-key shortcuts while a preview is open.
+- **Pin and drag.** Press `P` or drag the header to keep a preview on screen while you read.
+- **Hold-to-preview mode.** Previews only appear while you hold Alt (Option on Mac), if you prefer them out of the way.
+- **Email, phone and SMS links** get their own card with copy and open actions.
 
-### 🚫 Tracking Detection
-Instantly spot tracking parameters (UTM codes, Facebook click IDs, and more) and remove them with one click to protect your privacy.
+### Cleaning
+- **Removes 250+ tracking parameters** (`utm_*`, `fbclid`, `gclid`, `mc_eid`, HubSpot, Matomo and more) plus site-specific junk on Amazon, YouTube, X, Instagram, TikTok, LinkedIn, Spotify, Reddit, eBay, AliExpress, Etsy and others.
+- **Skips redirect wrappers locally**: Google, Facebook, Instagram, Threads, Outlook Safe Links, Proofpoint, Slack, Reddit, YouTube, Steam, DuckDuckGo, Bing, VK, LinkedIn, Pinterest and more. Decoded on your device, so the wrapper never sees the click.
+- **Expands short links** (bit.ly, t.co, tinyurl and 50+ others) by following the real redirect chain, including meta-refresh hops.
+- **Cleans on click.** Normal clicks, middle clicks and "Copy link address" all get the clean URL.
+- **Clean all links on a page** from the toolbar popup.
+- **Strict mode** for `ref`, `source`, affiliate tags and other parameters that are usually, but not always, tracking.
 
-### 🔄 Redirect Resolution
-Automatically follows redirect chains to show you the real final URL behind shortened links and redirects.
+### Safety
+- **Link text that lies**: warns when a link says `paypal.com` but goes somewhere else.
+- **Look-alike domains** (punycode), hidden hosts (`user@host` tricks), raw IP addresses and unusual domain endings.
+- **App downloads** (`.exe`, `.dmg`, `.apk` and more) with file type and size.
+- **Broken links** (404/410) and sign-in walls.
+- **Google Safe Browsing** (optional, your own free API key) for known malware and phishing. Dangerous previews are blurred and need a second click to open.
+- **Action links** like logout or unsubscribe are never loaded in the background.
 
-### ⚡ Lightning Fast
-Smart caching means you get instant results without slowing down your browsing. Links are preloaded intelligently based on page size.
+### Everything else
+- **Toolbar popup**: per-site switch, link stats for the current page, "Unbox a link" box for pasting any URL, recent history, lifetime stats.
+- **Toolbar badge** counts tracked links on the current page.
+- **Right-click menu**: copy clean link, open clean link, copy as Markdown, copy clean page address, pause on this site.
+- **Global shortcuts**: `Alt+Shift+C` copies the clean address of the current page, `Alt+Shift+U` pauses unboxx on the current site. Change them at `chrome://extensions/shortcuts`.
+- **Copy as Markdown** from any preview.
+- **Wayback Machine and VirusTotal** shortcuts in the details panel.
+- **Light, dark or system theme.**
 
-### 🌙 Beautiful Design
-Clean, modern interface with dark mode support and smooth animations. Tooltips adapt to your screen and never get cut off.
+## Keyboard shortcuts in a preview
 
-## 🚀 Get Started
+| Key | Action |
+| --- | --- |
+| `C` | Copy link |
+| `Shift` `C` | Copy clean link |
+| `M` | Copy as Markdown |
+| `O` | Open in new tab |
+| `B` | Open in background tab |
+| `P` | Pin or unpin |
+| `D` | Show details |
+| `Esc` | Close |
 
-1. **Install the Extension**
-   - Download from Chrome Web Store (coming soon)
-   - Or install manually: Clone this repo → Open `chrome://extensions` → Enable Developer mode → Load unpacked
+## Privacy
 
-2. **Start Hovering**
-   - That's it! Just hover over any link to see where it goes
-   - Click buttons in the tooltip to open, copy, or visit without tracking
+- unboxx has no servers. Links are fetched straight from your browser **without cookies**, so previews never act as you on a site.
+- History and stats live in local extension storage and are never kept in incognito.
+- Two features send data elsewhere, and both are off until you turn them on: the screenshot preview (sends the link to WordPress mShots) and Safe Browsing (sends the link to Google).
 
-3. **Optional: Enable Safe Browsing**
-   - For malware detection, add your free Google Safe Browsing API key
-   - See [Safe Browsing Setup](#safe-browsing-setup) below
+## Install
 
-## 🎨 What You'll See
+1. Clone this repo.
+2. Open `chrome://extensions` and turn on Developer mode.
+3. Click **Load unpacked** and pick the repo folder.
 
-- **📧 Email Links**: Special purple badges for mailto: links
-- **📱 Phone Links**: Quick-dial indicators for tel: links
-- **⚠️ Tracking Detected**: Yellow warnings when tracking parameters are found
-- **🔗 Redirects**: See the full redirect chain and final destination
-- **🚨 Dangerous Sites**: Bright red alerts for known malware and phishing sites
+A settings page opens with a short tour. To add a Safe Browsing key, open settings, go to **Safety**, paste the key and press **Save**. unboxx checks the key before saving it.
 
-## 🔒 Privacy First
+## How it's built
 
-- **Your data stays yours**: All link processing happens locally in your browser
-- **No tracking**: We don't collect or store any information about your browsing
-- **Optional features**: Safe Browsing API is opt-in and only used when you provide an API key
-- **CORS-aware**: When websites block our preview, we show what we can and explain why
+- Manifest V3, plain JavaScript, no build step.
+- `lib/rules.js` holds all URL rules (tracking parameters, redirect wrappers, shorteners, risk checks) and runs everywhere.
+- `lib/card.js` renders the preview card for both the page overlay and the popup.
+- `content.js` uses one set of delegated listeners for the whole page and renders inside a closed shadow root, so site CSS can't break the card and the card can't leak styles into the site.
+- `background.js` makes one streamed request per link, reads only as much HTML as it needs, tracks the redirect chain with `webRequest`, and caches results in IndexedDB for 3 days.
+- Preview images are drawn onto a canvas, so they show up even on sites with strict image policies.
+- Icons are [Phosphor](https://phosphoricons.com) (MIT), bundled locally in `lib/icons.js`.
 
-## ⚙️ Safe Browsing Setup
+## License
 
-To enable dangerous site detection:
-
-1. **Get a free API key** from [Google Cloud Console](https://console.cloud.google.com/)
-   - Create a new project
-   - Enable "Safe Browsing API"
-   - Create credentials → API Key
-   - Free tier: 10,000 checks per day
-
-2. **Add your key**
-   - Open browser console on any page
-   - Run: `chrome.storage.sync.set({ safeBrowsingApiKey: 'YOUR_KEY_HERE' });`
-   - Or edit `background.js` line 4 to hardcode your key
-
-3. **You're protected!**
-   - Dangerous sites will show red warnings automatically
-   - No setup required after adding your key
-
-## 🎯 Use Cases
-
-- **Research & Journalism**: Verify sources without visiting suspicious sites
-- **Social Media**: Check where shortened URLs lead before clicking
-- **Email Safety**: Preview links in emails to avoid phishing
-- **Privacy Conscious**: Strip tracking parameters from links
-- **Productivity**: See destination faster than waiting for page loads
-
-## 🛠️ Technical Details
-
-- Built with **Manifest V3** (latest Chrome extension standard)
-- **IndexedDB caching** with 7-day expiration
-- **Smart batching**: Preloads ≤25 links, lazy loads for larger pages
-- **Redirect resolution** with timeout and hop limits
-- **Tracking parameter detection** for 15+ common trackers
-- **Google Safe Browsing API v4** integration (optional)
-
-## 📦 What's Included
-
-- **Content Script**: Detects links and shows tooltips
-- **Background Worker**: Resolves redirects and fetches metadata
-- **Popup UI**: Quick stats and site-specific toggle
-- **Test Pages**: Try it out on included demo pages
-
-## 🌟 Why unboxx?
-
-Most link expanders require you to copy-paste URLs or open new tabs. **unboxx shows you instantly** — just hover, no extra steps. Plus, it works on *every* link on *every* page, automatically.
-
-## 🤝 Contributing
-
-Found a bug? Have an idea? We'd love to hear from you!
-
-- [Report issues](https://github.com/yourusername/unboxx/issues)
-- [Request features](https://github.com/yourusername/unboxx/issues/new)
-- Fork and submit pull requests
-
-## 📄 License
-
-MIT License - see LICENSE.md for details
-
-## 🔗 Links
-
-- [Chrome Web Store](#) (coming soon)
-- [Report a Bug](https://github.com/yourusername/unboxx/issues)
-- [Request a Feature](https://github.com/yourusername/unboxx/issues/new)
-
----
-
-**Made with ❤️ for safer, smarter browsing**
+MIT. See LICENSE.md.

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" class="ubx-root" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>unboxx settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <a class="op-skip" href="#main">Skip to settings</a>
+
+  <header class="op-top">
+    <div class="op-top-inner">
+      <i data-mark></i>
+      <span class="op-word">unboxx</span>
+      <span class="op-crumb">Settings</span>
+      <span class="op-saved" id="saved" role="status" aria-live="polite"></span>
+    </div>
+  </header>
+
+  <div class="op-layout">
+    <nav class="op-nav" aria-label="Settings sections">
+      <div class="op-search">
+        <label class="op-sr" for="search">Search settings</label>
+        <i data-icon="magnifying-glass" data-size="15"></i>
+        <input id="search" type="search" placeholder="Search" autocomplete="off" spellcheck="false">
+        <kbd class="ubx-kbd op-search-key" aria-hidden="true">/</kbd>
+      </div>
+      <a href="#previews" class="is-current"><i data-icon="link-simple" data-size="16"></i>Previews</a>
+      <a href="#cleaning"><i data-icon="broom" data-size="16"></i>Cleaning</a>
+      <a href="#safety"><i data-icon="shield-check" data-size="16"></i>Safety<span class="op-nav-meta" id="nav-safety"></span></a>
+      <a href="#sites"><i data-icon="globe-simple" data-size="16"></i>Sites<span class="op-nav-meta" id="nav-sites"></span></a>
+      <a href="#appearance"><i data-icon="sun" data-size="16"></i>Appearance</a>
+      <a href="#data"><i data-icon="clock-counter-clockwise" data-size="16"></i>Data</a>
+      <a href="#keyboard"><i data-icon="keyboard" data-size="16"></i>Keyboard</a>
+    </nav>
+
+    <main class="op-main" id="main">
+      <div class="op-noresults" id="noresults" hidden>
+        <span>No match for "<span id="noresults-query"></span>"</span>
+        <button class="ubx-textlink" id="clear-search" type="button">Clear</button>
+      </div>
+
+      <section class="op-welcome" id="welcome" hidden aria-labelledby="welcome-title">
+        <div class="op-welcome-text">
+          <h1 id="welcome-title">unboxx is on</h1>
+          <dl class="op-welcome-keys">
+            <div><dt>Preview a link</dt><dd>Hover</dd></div>
+            <div><dt>Copy clean link</dt><dd><kbd class="ubx-kbd">C</kbd></dd></div>
+            <div><dt>Pin preview</dt><dd><kbd class="ubx-kbd">P</kbd></dd></div>
+          </dl>
+          <button class="op-btn op-btn-primary" id="welcome-done" type="button">Done</button>
+        </div>
+        <div class="op-welcome-demo" id="welcome-demo" aria-hidden="true"></div>
+      </section>
+
+      <section class="op-section" id="previews" aria-labelledby="previews-title">
+        <h2 id="previews-title">Previews</h2>
+        <div class="op-group">
+          <div class="op-row">
+            <span class="op-row-title" id="trigger-label">Open on</span>
+            <div class="op-seg" role="radiogroup" aria-labelledby="trigger-label" data-setting="trigger">
+              <label><input type="radio" name="trigger" value="hover"><span>Hover</span></label>
+              <label><input type="radio" name="trigger" value="modifier"><span class="op-alt-label">Hold Alt</span></label>
+            </div>
+          </div>
+
+          <div class="op-row" id="delay-row">
+            <label class="op-row-title" for="hoverDelay">Delay</label>
+            <div class="op-range">
+              <input type="range" id="hoverDelay" min="100" max="1000" step="50" data-setting="hoverDelay">
+              <output for="hoverDelay" id="hoverDelay-value">350 ms</output>
+            </div>
+          </div>
+
+          <div class="op-row">
+            <label class="op-row-title" for="showOnFocus">Open on Tab focus</label>
+            <label class="op-switch"><input type="checkbox" role="switch" id="showOnFocus" data-setting="showOnFocus"><span class="op-switch-track" aria-hidden="true"><span class="op-switch-thumb"></span></span></label>
+          </div>
+
+          <div class="op-row">
+            <label class="op-row-title has-hint" for="skipSameSite">Skip same-site links</label>
+            <span class="op-hint" id="hint-same" role="tooltip">Links within the domain you are on get no preview.</span>
+            <label class="op-switch"><input type="checkbox" role="switch" id="skipSameSite" data-setting="skipSameSite" aria-describedby="hint-same"><span class="op-switch-track" aria-hidden="true"><span class="op-switch-thumb"></span></span></label>
+          </div>
+
+          <div class="op-row">
+            <label class="op-row-title has-hint" for="prefetchSmallPages">Load ahead on small pages</label>
+            <span class="op-hint" id="hint-prefetch" role="tooltip">On pages with 25 links or fewer, outside links are fetched when the page loads.</span>
+            <label class="op-switch"><input type="checkbox" role="switch" id="prefetchSmallPages" data-setting="prefetchSmallPages" aria-describedby="hint-prefetch"><span class="op-switch-track" aria-hidden="true"><span class="op-switch-thumb"></span></span></label>
+          </div>
+
+          <div class="op-row">
+            <span class="op-row-title has-hint" id="images-label">Preview</span>
+            <span class="op-hint" id="hint-images" role="tooltip">Live loads the page itself, the same as visiting it. Screenshot sends each link to WordPress mShots.</span>
+            <div class="op-seg" role="radiogroup" aria-labelledby="images-label" aria-describedby="hint-images" data-setting="previewImages">
+              <label><input type="radio" name="previewImages" value="live"><span>Live</span></label>
+              <label><input type="radio" name="previewImages" value="page"><span>Site image</span></label>
+              <label><input type="radio" name="previewImages" value="screenshot"><span>Screenshot</span></label>
+              <label><input type="radio" name="previewImages" value="off"><span>None</span></label>
+            </div>
+          </div>
+
+          <div class="op-row">
+            <label class="op-row-title has-hint" for="keyboardShortcuts">Single-key shortcuts</label>
+            <span class="op-hint" id="hint-keys" role="tooltip">C, M, O, B, P and D act on the open preview.</span>
+            <label class="op-switch"><input type="checkbox" role="switch" id="keyboardShortcuts" data-setting="keyboardShortcuts" aria-describedby="hint-keys"><span class="op-switch-track" aria-hidden="true"><span class="op-switch-thumb"></span></span></label>
+          </div>
+
+          <div class="op-row">
+            <label class="op-row-title has-hint" for="showBadge">Toolbar count</label>
+            <span class="op-hint" id="hint-badge" role="tooltip">Number of links with trackers on the current page.</span>
+            <label class="op-switch"><input type="checkbox" role="switch" id="showBadge" data-setting="showBadge" aria-describedby="hint-badge"><span class="op-switch-track" aria-hidden="true"><span class="op-switch-thumb"></span></span></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="op-section" id="cleaning" aria-labelledby="cleaning-title">
+        <h2 id="cleaning-title">Cleaning</h2>
+        <div class="op-group">
+          <div class="op-row">
+            <label class="op-row-title has-hint" for="cleanOnClick">Clean on open</label>
+            <span class="op-hint" id="hint-clean" role="tooltip">Applies to clicks, middle clicks and Copy link address.</span>
+            <label class="op-switch"><input type="checkbox" role="switch" id="cleanOnClick" data-setting="cleanOnClick" aria-describedby="hint-clean"><span class="op-switch-track" aria-hidden="true"><span class="op-switch-thumb"></span></span></label>
+          </div>
+
+          <div class="op-row">
+            <label class="op-row-title has-hint" for="unwrapRedirects">Decode redirect wrappers</label>
+            <span class="op-hint" id="hint-unwrap" role="tooltip">Google, Facebook, Outlook Safe Links, Slack, Reddit and about 20 others. Decoded on this device.</span>
+            <label class="op-switch"><input type="checkbox" role="switch" id="unwrapRedirects" data-setting="unwrapRedirects" aria-describedby="hint-unwrap"><span class="op-switch-track" aria-hidden="true"><span class="op-switch-thumb"></span></span></label>
+          </div>
+
+          <div class="op-row">
+            <label class="op-row-title has-hint" for="strictCleaning">Strict</label>
+            <span class="op-hint" id="hint-strict" role="tooltip">Also removes ref, source and affiliate tags. Some sites need them.</span>
+            <label class="op-switch"><input type="checkbox" role="switch" id="strictCleaning" data-setting="strictCleaning" aria-describedby="hint-strict"><span class="op-switch-track" aria-hidden="true"><span class="op-switch-thumb"></span></span></label>
+          </div>
+
+          <div class="op-row op-row-stack">
+            <label class="op-row-title" for="tester-input">Test a link</label>
+            <input id="tester-input" class="op-input" type="text" spellcheck="false" autocomplete="off" placeholder="https://" aria-describedby="tester-output">
+            <div class="op-tester-output" id="tester-output" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="op-section" id="safety" aria-labelledby="safety-title">
+        <h2 id="safety-title">Safety</h2>
+        <div class="op-group">
+          <div class="op-row op-row-stack">
+            <label class="op-row-title has-hint" for="sb-key">Google Safe Browsing key</label>
+            <span class="op-hint" id="hint-sb" role="tooltip">Checks links against Google's malware and phishing lists. Each previewed link is sent to Google.</span>
+            <div class="op-key-row">
+              <input id="sb-key" class="op-input" type="password" spellcheck="false" autocomplete="off" placeholder="AIza..." aria-describedby="hint-sb sb-status">
+              <button class="op-btn" id="sb-reveal" type="button" aria-pressed="false">Show</button>
+              <button class="op-btn op-btn-primary" id="sb-save" type="button">Save</button>
+            </div>
+            <div class="op-key-meta">
+              <span class="op-help" id="sb-status">Not set</span>
+              <a class="ubx-textlink" href="https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com" target="_blank" rel="noopener noreferrer" title="Free tier: 10,000 checks a day.">Get a key</a>
+              <button class="ubx-textlink" id="sb-remove" type="button" hidden>Remove</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="op-section" id="sites" aria-labelledby="sites-title">
+        <h2 id="sites-title">Sites</h2>
+        <div class="op-group">
+          <div class="op-row op-row-stack">
+            <label class="op-row-title has-hint" for="site-input">Paused sites</label>
+            <span class="op-hint" id="hint-sites" role="tooltip">Previews and cleaning are off on these sites and their subdomains.</span>
+            <form class="op-key-row" id="site-form" novalidate>
+              <input id="site-input" class="op-input" type="text" spellcheck="false" autocomplete="off" placeholder="example.com" aria-describedby="hint-sites site-error">
+              <button class="op-btn op-btn-primary" type="submit">Add</button>
+            </form>
+            <p class="op-help" id="site-error"></p>
+            <ul class="op-sites" id="site-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="op-section" id="appearance" aria-labelledby="appearance-title">
+        <h2 id="appearance-title">Appearance</h2>
+        <div class="op-group">
+          <div class="op-row">
+            <span class="op-row-title" id="theme-label">Theme</span>
+            <div class="op-seg" role="radiogroup" aria-labelledby="theme-label" data-setting="theme">
+              <label><input type="radio" name="theme" value="auto"><span><i data-icon="monitor" data-size="14"></i>System</span></label>
+              <label><input type="radio" name="theme" value="light"><span><i data-icon="sun" data-size="14"></i>Light</span></label>
+              <label><input type="radio" name="theme" value="dark"><span><i data-icon="moon" data-size="14"></i>Dark</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="op-section" id="data" aria-labelledby="data-title">
+        <h2 id="data-title">Data</h2>
+        <div class="op-group">
+          <div class="op-row">
+            <span class="op-row-title">Trackers removed</span>
+            <span class="op-value" id="fig-removed">0</span>
+          </div>
+          <div class="op-row">
+            <span class="op-row-title">Links previewed</span>
+            <span class="op-value" id="fig-previewed">0</span>
+          </div>
+          <div class="op-row">
+            <label class="op-row-title has-hint" for="keepHistory">Recent history</label>
+            <span class="op-hint" id="hint-history" role="tooltip">The last 50 previewed links, stored on this device. Not kept in incognito.</span>
+            <span class="op-row-end">
+              <span class="op-value" id="fig-history" title="Links in history">0</span>
+              <label class="op-switch"><input type="checkbox" role="switch" id="keepHistory" data-setting="keepHistory" aria-describedby="hint-history"><span class="op-switch-track" aria-hidden="true"><span class="op-switch-thumb"></span></span></label>
+            </span>
+          </div>
+          <div class="op-row op-row-actions">
+            <button class="op-btn" id="clear-history" type="button">Clear history</button>
+            <button class="op-btn" id="clear-cache" type="button" title="Previews are cached for 3 days.">Clear cache</button>
+            <button class="op-btn op-btn-danger" id="reset" type="button" title="Paused sites and the API key are kept.">Reset settings</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="op-section" id="keyboard" aria-labelledby="keyboard-title">
+        <h2 id="keyboard-title">Keyboard</h2>
+        <div class="op-group op-keys">
+          <div class="op-keys-block">
+            <h3>In a preview</h3>
+            <dl>
+              <div><dt><kbd class="ubx-kbd">C</kbd></dt><dd>Copy clean link</dd></div>
+              <div><dt><kbd class="ubx-kbd">Shift</kbd> <kbd class="ubx-kbd">C</kbd></dt><dd>Copy original link</dd></div>
+              <div><dt><kbd class="ubx-kbd">M</kbd></dt><dd>Copy as Markdown</dd></div>
+              <div><dt><kbd class="ubx-kbd">O</kbd></dt><dd>Open</dd></div>
+              <div><dt><kbd class="ubx-kbd">B</kbd></dt><dd>Open in background</dd></div>
+              <div><dt><kbd class="ubx-kbd">P</kbd></dt><dd>Pin</dd></div>
+              <div><dt><kbd class="ubx-kbd">D</kbd></dt><dd>Details</dd></div>
+              <div><dt><kbd class="ubx-kbd">Esc</kbd></dt><dd>Close</dd></div>
+            </dl>
+          </div>
+          <div class="op-keys-block">
+            <h3>Anywhere</h3>
+            <dl id="global-shortcuts">
+              <div><dt><kbd class="ubx-kbd">Alt</kbd> <kbd class="ubx-kbd">Shift</kbd> <kbd class="ubx-kbd">C</kbd></dt><dd>Copy clean page address</dd></div>
+              <div><dt><kbd class="ubx-kbd">Alt</kbd> <kbd class="ubx-kbd">Shift</kbd> <kbd class="ubx-kbd">U</kbd></dt><dd>Pause on this site</dd></div>
+            </dl>
+            <button class="ubx-textlink" id="edit-shortcuts" type="button">Change</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="lib/icons.js"></script>
+  <script src="lib/rules.js"></script>
+  <script src="lib/settings.js"></script>
+  <script src="lib/card.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

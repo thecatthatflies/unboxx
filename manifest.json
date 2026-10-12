@@ -1,12 +1,16 @@
 {
   "manifest_version": 3,
   "name": "unboxx",
-  "version": "1.0.0",
-  "description": "See where links go, remove tracking parameters",
+  "version": "2.0.0",
+  "description": "Hover any link to see where it really goes. Strips trackers, expands short links and flags risky destinations.",
   "permissions": [
     "activeTab",
-    "scripting",
-    "storage"
+    "storage",
+    "contextMenus",
+    "webRequest",
+    "offscreen",
+    "clipboardWrite",
+    "declarativeNetRequestWithHostAccess"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -17,9 +21,16 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "css": ["styles.css"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "lib/icons.js",
+        "lib/rules.js",
+        "lib/settings.js",
+        "lib/card.js",
+        "content.js"
+      ],
       "run_at": "document_start"
     }
   ],
@@ -33,6 +44,24 @@
       "192": "icons/icon192.png"
     }
   },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "copy-clean-url": {
+      "suggested_key": {
+        "default": "Alt+Shift+C"
+      },
+      "description": "Copy the clean address of the current page"
+    },
+    "toggle-site": {
+      "suggested_key": {
+        "default": "Alt+Shift+U"
+      },
+      "description": "Pause or resume unboxx on the current site"
+    }
+  },
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -41,5 +70,17 @@
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "preview.html",
+        "preview.css",
+        "preview.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
 }
