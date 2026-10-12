@@ -465,21 +465,37 @@
   function bindNav() {
     const links = $$(".op-nav a");
     const byId = new Map(links.map((a) => [a.getAttribute("href").slice(1), a]));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-        if (!visible) return;
-        links.forEach((a) => a.classList.remove("is-current"));
-        const link = byId.get(visible.target.id);
-        if (link) {
-          link.classList.add("is-current");
-          link.setAttribute("aria-current", "true");
-        }
-        links.filter((a) => a !== link).forEach((a) => a.removeAttribute("aria-current"));
-      },
-      { rootMargin: "-80px 0px -60% 0px", threshold: 0 }
-    );
-    $$(".op-section").forEach((section) => observer.observe(section));
+    const activate = (id) => {
+      const current = byId.get(id);
+      links.forEach((link) => {
+        const selected = link === current;
+        link.classList.toggle("is-current", selected);
+        if (selected) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    };
+    const update = () => {
+      const sections = $$(".op-section:not([data-search-hidden])");
+      const cutoff = window.innerHeight * 0.8;
+      let current = sections[0];
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= cutoff) current = section;
+      }
+      if (current) activate(current.id);
+    };
+    let frame = 0;
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        update();
+      });
+    };
+    links.forEach((link) => link.addEventListener("click", () => activate(link.hash.slice(1))));
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    $("#search").addEventListener("input", schedule);
+    schedule();
   }
 
   // -------------------------------------------------------------------------
